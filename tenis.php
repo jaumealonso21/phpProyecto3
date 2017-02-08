@@ -9,6 +9,9 @@
         //$pto = 15;
         if(isset($_REQUEST['enviar1'])){ //Marca jugador1
             $punto1 = $_REQUEST['punto1'];
+            if($punto1 === "A") {
+                $punto1 = 50;
+            }
             $game1 = $_REQUEST['game1'];
             $set1 = $_REQUEST['set1'];
             $punto2 = $_REQUEST['punto2'];
@@ -46,7 +49,7 @@
                         }
                     }
                     break;
-                case 'A':
+                case 50:
                     $punto1 = 0;
                     $punto2 = 0;
                     $game1++; 
