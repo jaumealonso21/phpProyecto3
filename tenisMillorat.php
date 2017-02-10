@@ -18,6 +18,8 @@
         <label>Game2</label><input type="text" name="game2" value="<?php echo $game2 ?>" />
         <label>Punto2</label><input type="text" name="punto2" value="<?php echo $punto2 ?>" />
         <input type="submit" value="Pto Jug2" name="enviar2" />
+        <br />
+        <?php echo $puntsUltim ?>
     </form>
 </div>
 </body>

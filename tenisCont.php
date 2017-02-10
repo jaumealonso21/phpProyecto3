@@ -1,30 +1,34 @@
   
 <?php
+//$puntsUltim = 0;
+//if (isset($_COOKIE["puntsUltim"])) {
+//    $puntsUltim = $_COOKIE["puntsUltim"];
+// }
+$puntsUltim = (isset($_COOKIE["puntsUltim"]))?$puntsUltim = $_COOKIE["puntsUltim"]:$puntsUltim="";
 
 //$pto = 15;
 $enviar = filter_input(0, 'submit');//El 0 és INPUT_POST
 if(isset($enviar)){ //Marca jugador1
-    //$punto1 = $_REQUEST['punto1'];
-    $punto1 = filter_input(INPUT_POST, 'punto1', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+    $punto1 = $_REQUEST['punto1'];
+//    $punto1 = filter_input(INPUT_POST, 'punto1', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+    setcookie("puntsUltim", "El jugador 1 ha marcat: ".$punt1, time()+(3600*24));//Inserto cookie, expira 24 hores
     if($punto1 === "A") {
         $punto1 = 50;
     }
-//    $game1 = $_REQUEST['game1'];
-    $game1 = filter_input(INPUT_POST, 'game1', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-//    $set1 = $_REQUEST['set1'];
-    $set1 = filter_input(INPUT_POST, 'set1', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-//    $punto2 = $_REQUEST['punto2'];
-    $punto2 = filter_input(INPUT_POST, 'punto2', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+    $game1 = $_REQUEST['game1'];
+//    $game1 = filter_input(INPUT_POST, 'game1', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+    $set1 = $_REQUEST['set1'];
+//    $set1 = filter_input(INPUT_POST, 'set1', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+    $punto2 = $_REQUEST['punto2'];
+//    $punto2 = filter_input(INPUT_POST, 'punto2', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
     if($punto2 === "A") {
         $punto2 = 50;
     }
-//    $game2 = $_REQUEST['game2'];
-    $game2 = filter_input(INPUT_POST, 'game2', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-//    $set2 = $_REQUEST['set2'];
-    $set2 = filter_input(INPUT_POST, 'set2', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-    function suma($punt) {
-        ;
-    }
+    $game2 = $_REQUEST['game2'];
+//    $game2 = filter_input(INPUT_POST, 'game2', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+    $set2 = $_REQUEST['set2'];
+//    $set2 = filter_input(INPUT_POST, 'set2', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+    
     switch($punto1){
                 case 0:
                     $punto1 = 15;
