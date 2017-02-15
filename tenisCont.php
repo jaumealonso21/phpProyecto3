@@ -1,14 +1,20 @@
-  
-<?php
-//$puntsUltim = 0;
-//if (isset($_COOKIE["puntsUltim"])) {
-//    $puntsUltim = $_COOKIE["puntsUltim"];
-// }
-$puntsUltim = (isset($_COOKIE["puntsUltim"]))?$puntsUltim = $_COOKIE["puntsUltim"]:$puntsUltim="";
 
-//$pto = 15;
+use DateTime;
+<?php
+//$puntsUltim = (isset($_COOKIE["puntsUltim"]))?$puntsUltim = $_COOKIE["puntsUltim"]:$puntsUltim="";
+$puntsUltim = filter_input(INPUT_COOKIE, "puntsUltim", FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+
 $enviar = filter_input(0, 'submit');//El 0 és INPUT_POST
+
 if(isset($enviar)){ //Marca jugador1
+    //funció per calcular el temps entre el punt i l'inici de la partida
+    function temps() {
+          if(!$puntsUltim) {
+              $puntsUltim = new DateTime('s');
+          }else{
+              $dt = new DateTime('s');
+          }
+    }
     $punto1 = $_REQUEST['punto1'];
 //    $punto1 = filter_input(INPUT_POST, 'punto1', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
     setcookie("puntsUltim", "El jugador 1 ha marcat: ".$punt1, time()+(3600*24));//Inserto cookie, expira 24 hores

@@ -1,7 +1,8 @@
 <?php 
-$puntsUltim = (isset($_COOKIE["puntsUltim"]))?$puntsUltim = $_COOKIE["puntsUltim"]:$puntsUltim="";
+//$puntsUltim = (isset($_COOKIE["puntsUltim"]))?$puntsUltim = $_COOKIE["puntsUltim"]:$puntsUltim="";
 $jocUltim = (isset($_COOKIE["jocUltim"]))?$jocUltim = $_COOKIE["jocUltim"]:$jocUltim="";
 $setUltim = (isset($_COOKIE["setUltim"]))?$setUltim = $_COOKIE["setUltim"]:$setUltim="";
+$puntsUltim = filter_input(INPUT_COOKIE, "puntsUltim", FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 
 //session_start($nou_id);
 session_start();
@@ -10,12 +11,20 @@ if (!isset($_SESSION['web_tenis'])) {
  } else {
     echo "Iniciada la sessió ".$_SESSION['web_tenis'];//Indica si inicia la sessió
  }
+ //funció per calcular el temps entre el punt i l'inici de la partida
+    function temps() {
+          if(!$puntsUltim) {
+              $puntsUltim = new DateTime('s');
+          }else{
+              $dt = new DateTime('s');
+          }
+    }
 ?>
 <!DOCTYPE html>
 <html>
     <head>
         <title>Tenis</title>
-        <meta charset="UTF-8">
+        <meta charset="UTF-8" />
     </head>
     <body>
         <?php
