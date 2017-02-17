@@ -1,9 +1,4 @@
-<?php 
-//$puntsUltim = (isset($_COOKIE["puntsUltim"]))?$puntsUltim = $_COOKIE["puntsUltim"]:$puntsUltim="";
-$jocUltim = (isset($_COOKIE["jocUltim"]))?$jocUltim = $_COOKIE["jocUltim"]:$jocUltim="";
-$setUltim = (isset($_COOKIE["setUltim"]))?$setUltim = $_COOKIE["setUltim"]:$setUltim="";
-$puntsUltim = filter_input(INPUT_COOKIE, "puntsUltim", FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-
+<?php
 //session_start($nou_id);
 session_start();
 if (!isset($_SESSION['web_tenis'])) {
@@ -11,14 +6,14 @@ if (!isset($_SESSION['web_tenis'])) {
  } else {
     echo "Iniciada la sessió ".$_SESSION['web_tenis'];//Indica si inicia la sessió
  }
- //funció per calcular el temps entre el punt i l'inici de la partida
-    function temps() {
-          if(!$puntsUltim) {
-              $puntsUltim = new DateTime('s');
-          }else{
-              $dt = new DateTime('s');
-          }
-    }
+ 
+$puntsUltim = (isset($_COOKIE["puntsUltim"]))?$puntsUltim = $_COOKIE["puntsUltim"]:$puntsUltim="";
+$jocUltim = (isset($_COOKIE["jocUltim"]))?$jocUltim = $_COOKIE["jocUltim"]:$jocUltim="";
+$setUltim = (isset($_COOKIE["setUltim"]))?$setUltim = $_COOKIE["setUltim"]:$setUltim="";
+//$puntsUltim = filter_input(INPUT_COOKIE, "puntsUltim", FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+//$jocUltim = filter_input(INPUT_COOKIE, "jocUltim", FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+//$setUltim = filter_input(INPUT_COOKIE, "setUltim", FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+
 ?>
 <!DOCTYPE html>
 <html>
@@ -28,19 +23,36 @@ if (!isset($_SESSION['web_tenis'])) {
     </head>
     <body>
         <?php
+        //Funció per calcular el temps, per desenvolupar-lo més endavant
+        function temps($a) {
+            if($a==="") {
+                $a = time();//Segons desde 1 de gener, 12:00h, 1970
+//                $a = date('s');
+            }else{
+                $dt = time();//Segons desde 1 de gener, 12:00h, 1970
+//                $dt = date('s');
+                $dt -= $a;
+                $a = $dt;
+            }
+            return $a;
+        }
         function ptoCookie() { //Funció que  afegeix cookie en marcar punt
-            $puntsUltim = date('s');
-            setcookie("puntsUltim", "L'ùltim punt marcat:".$puntsUltim." s", time()+(3600*24));//Inserto cookie, expira 24 hores
+            global $puntsUltim;
+//            setcookie("puntsUltim", $puntsUltim, time()+(3600*24));//Inserto cookie, expira 24 hores
+            setcookie("puntsUltim", temps($puntsUltim), time()+(3600*24));//Expira als 10 seg
         }
         function jocCookie() { //Funció que  afegeix cookie en marcar joc
-            $jocUltim = date('s');
-            setcookie("jocUltim", "L'ùltim joc marcat:".$jocUltim." s", time()+(3600*24));//Inserto cookie, expira 24 hores
+
+            global $jocUltim;
+//            setcookie("jocUltim", $jocUltim, time()+(3600*24));
+            setcookie("jocUltim", temps($jocUltim), time()+(3600*24));//Inserto cookie, expira 24 hores
         }
         function estCookie() { //Funció que  afegeix cookie en marcar set
-            $setUltim = date('s');
-            setcookie("setUltim", "L'ùltim set marcat:".$setUltim." s", time()+(3600*24));//Inserto cookie, expira 24 hores
+
+            global $setUltim;
+//            setcookie("setUltim", $setUltim, time()+(3600*24));
+            setcookie("setUltim", temps($setUltim), time()+(3600*24));//Inserto cookie, expira 24 hores
         }
-        //$pto = 15;
         if(isset($_REQUEST['enviar1'])){ //Marca jugador1
             $punto1 = $_REQUEST['punto1'];
             if($punto1 === "A") {
@@ -106,6 +118,9 @@ if (!isset($_SESSION['web_tenis'])) {
                             $set2 = 0;
                             $game2 = 0;
                             $punto2 = 0;
+                            setcookie("puntsUltim", 0);
+                            setcookie("jocUltim", 0);
+                            setcookie("setUltim", 0);
                         }
                     }
                     break;
@@ -154,6 +169,9 @@ if (!isset($_SESSION['web_tenis'])) {
                             $set2 = 0;
                             $game2 = 0;
                             $punto2 = 0;
+                            setcookie("puntsUltim", 0);
+                            setcookie("jocUltim", 0);
+                            setcookie("setUltim", 0);
                         }
                     }
                     break;
@@ -186,11 +204,18 @@ if (!isset($_SESSION['web_tenis'])) {
                 <label>Punto2</label><input type="text" name="punto2" value="<?php echo $punto2 ?>" />
                 <input type="submit" value="Pto Jug2" name="enviar2" />
                 <br />
-                <?php echo $puntsUltim ?>
+                <?php echo "L'ùltim punt marcat:".$puntsUltim." s" ?>
                 <br />
-                <?php echo $jocUltim ?>
+                <?php echo "L'ùltim joc marcat:".$jocUltim." s" ?>
                 <br />
-                <?php echo $setUltim ?>
+                <?php echo "L'ùltim set marcat:".$setUltim." s" ?>
+                <!-- Para limpiar y hacer pruebas de cookies -->
+                <br />
+                <?php // setcookie("puntsUltim", 0); ?>
+                <br />
+                <?php // setcookie("jocUltim", 0); ?>
+                <br />
+                <?php // setcookie("setUltim", 0); ?>
             </form>
         </div>
     </body>
